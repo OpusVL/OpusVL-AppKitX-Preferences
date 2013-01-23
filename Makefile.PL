@@ -7,6 +7,8 @@ use Module::Install::AuthorTests;
 name 'OpusVL-AppKitX-Preferences';
 all_from 'lib/OpusVL/AppKitX/Preferences.pm';
 
+requires 'OpusVL::AppKit';
+requires 'OpusVL::Preferences';
 requires 'Moose';
 requires 'namespace::autoclean';
 
