@@ -30,6 +30,12 @@ override _build_config => sub {
           'dbi:SQLite:' . TestApp->path_to('root','appkit-auth.db'),
         ],
     };
+    $config->{'Model::Preferences'} = 
+    {
+        connect_info => [
+          'dbi:SQLite:' . TestApp->path_to('root','preferences.db'),
+        ],
+    };
 
     # .. add static dir into the config for Static::Simple..
     my $static_dirs = $config->{static}->{include_path};

@@ -1,4 +1,4 @@
-package OpusVL::AppKitX::Preferences::Controller::Preferences;
+package TestApp::Controller::Preferences;
 
 use Moose;
 use namespace::autoclean;
@@ -26,7 +26,7 @@ __PACKAGE__->config
 
 =head1 NAME
 
-OpusVL::AppKitX::Preferences::Controller:Preferences - 
+TestApp::Controller::Preferences - Demo preferences controller.
 
 =head1 DESCRIPTION
 

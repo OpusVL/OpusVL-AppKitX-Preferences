@@ -8,7 +8,7 @@ sub index_preferences
 
     $self->add_final_crumb($c, 'Search');
     my $form = $c->stash->{form};
-    my $rs = $c->model('TokenDB')->resultset($self->resultset);
+    my $rs = $c->model('Preferences')->resultset($self->resultset);
     $c->stash->{preferences} = [$rs->prf_defaults->active_first];
 }
 
@@ -35,7 +35,7 @@ sub add_prefences
     my $form = $c->stash->{form};
     $self->add_final_crumb($c, 'Add');
 
-    my $rs = $c->model('TokenDB')->resultset($self->resultset);
+    my $rs = $c->model('Preferences')->resultset($self->resultset);
     $self->do_form_setup($c, $form);
     if($form->submitted_and_valid)
     {
@@ -84,7 +84,7 @@ sub do_preference_chain
     my ($self, $c, $id) = @_;
 
     $c->detach('/not_found') unless $id;
-    my $preference = $c->model('TokenDB')->resultset($self->resultset)->prf_defaults->find({ name => $id });
+    my $preference = $c->model('Preferences')->resultset($self->resultset)->prf_defaults->find({ name => $id });
     $c->detach('/not_found') unless $preference;
     $c->stash->{preference} = $preference;
     $c->stash->{preference_name} = $id;
@@ -106,7 +106,7 @@ sub edit_prefences
         my $name = $form->param_value('name');
         unless($c->stash->{preference_name} eq $name)
         {
-            my $rs = $c->model('TokenDB')->resultset($self->resultset);
+            my $rs = $c->model('Preferences')->resultset($self->resultset);
             if($rs->prf_defaults->find({ name => $name }))
             {
                 # they are trying to rename the preference and it clashes
@@ -236,11 +236,99 @@ sub prefence_values
 
 1;
 
+__END__
+
+=pod
+
 =head1 NAME
 
-OpusVL::AppKitX::TokenProcessor::Admin::Role::PreferencesController
+OpusVL::AppKitX::Preferences::Roles::PreferencesController
 
 =head1 DESCRIPTION
+
+This role provides all the methods you need to create a preferences setup
+page for your DBIC result that is hooked up to the OpusVL::Preferences.
+
+
+    package OpusVL::AppKitX::TokenProcessor::Admin::Controller::Currencies::Preferences;
+
+    use Moose;
+    use namespace::autoclean;
+    BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
+    with 'OpusVL::AppKit::RolesFor::Controller::GUI';
+    with 'OpusVL::AppKitX::TokenProcessor::Admin::Role::PreferencesController';
+
+    has resultset => (is => 'ro', isa => 'Str', default => 'Currency');
+
+    __PACKAGE__->config
+    (
+        appkit_name                 => 'Admin',
+        # ... usual gubbins
+    );
+
+    sub auto
+        : Action
+    {
+        my ($self, $c) =@_;
+        my $index_url = $c->uri_for($self->action_for('index'));
+        $c->stash->{index_url} = $index_url;
+        $self->add_breadcrumb($c, { name => 'Parameters', url => $index_url });
+    }
+
+    sub index
+        : Path
+        : Args(0)
+        : NavigationName('Currency Parameters')
+        : AppKitFeature('Currency Parameters')
+    {
+        my ($self, $c) = @_;
+        $self->index_preferences($c);
+    }
+
+    sub add
+        : Local
+        : Args(0)
+        : AppKitFeature('Currency Parameters')
+        : AppKitForm('modules/preferences/add.yml')
+    {
+        my ($self, $c) = @_;
+
+        $self->add_prefences($c);
+    }
+
+    sub preference_chain
+        : Chained('/')
+        : CaptureArgs(1)
+        : AppKitFeature('Currency Parameters')
+        : PathPart('modules/currencies/preferences')
+    {
+        my ($self, $c, $id) = @_;
+        $self->do_preference_chain($c, $id);
+    }
+
+    sub edit
+        : Chained('preference_chain')
+        : Args(0)
+        : AppKitFeature('Currency Parameters')
+        : AppKitForm('modules/preferences/add.yml')
+        : PathPart('edit')
+    {
+        my ($self, $c) = @_;
+        $self->edit_prefences($c);
+    }
+
+    sub values
+        : Chained('preference_chain')
+        : Args(0)
+        : AppKitFeature('Currency Parameters')
+        : AppKitForm('modules/preferences/values.yml')
+        : PathPart('values')
+    {
+        my ($self, $c) = @_;
+        $self->prefence_values($c);
+    }
+
+    1;
 
 =head1 METHODS
 

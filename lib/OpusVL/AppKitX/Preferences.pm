@@ -16,8 +16,8 @@ after 'setup_components' => sub {
     # .. inject your components here ..
     CatalystX::InjectComponent->inject(
         into      => $class,
-        component => 'OpusVL::AppKitX::Preferences::Controller::Preferences',
-        as        => 'Controller::Modules::Preferences'
+        component => 'OpusVL::AppKitX::Preferences::Model::Preferences',
+        as        => 'Model::Preferences'
     );
 };
 
