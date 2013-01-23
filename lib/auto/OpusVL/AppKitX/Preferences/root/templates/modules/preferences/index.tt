@@ -1,0 +1,42 @@
+<div class="content_block">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Active</th>
+                <th>Required</th>
+                <th>Display Order</th>
+                [% IF extra_fields %]
+                [% extra_fields | none %]
+                [% END %]
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            [% FOR pref IN preferences %]
+                <tr>
+                    <td>[% pref.name %]</td>
+                    <td>[% pref.comment %]</td>
+                    <td>[% pref.data_type %]</td>
+                    <td>[% pref.default_value %]</td>
+                    <td>[% IF pref.active %]Yes[% ELSE %]No[% END %]</td>
+                    <td>[% IF pref.required %]Yes[% ELSE %]No[% END %]</td>
+                    <td>[% pref.display_order %]</td>
+                    [% PROCESS extra_field_values | none %]
+                    <td>
+                    <a href="[% c.uri_for(c.controller.action_for('edit'), [ pref.name ]) %]">edit</a>
+                    [% IF pref.data_type == 'select' %]
+                    <a href="[% c.uri_for(c.controller.action_for('values'), [ pref.name ]) %]">values</a>
+                    [% END %]
+                    </td>
+                </tr>
+            [% END %]
+        </tbody>
+    </table>
+</div>
+<div>
+    <a href="[% c.uri_for(c.controller.action_for('add')) %]" class="link_button link_button_add">Add</a>
+</div>
