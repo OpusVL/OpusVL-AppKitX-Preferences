@@ -25,7 +25,7 @@ after 'setup_components' => sub {
 
 =head1 NAME
 
-OpusVL::AppKitX::Preferences - 
+OpusVL::AppKitX::Preferences - Custom preferences UI
 
 =head1 DESCRIPTION
 
