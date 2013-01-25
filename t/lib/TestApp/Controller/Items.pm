@@ -15,6 +15,15 @@ __PACKAGE__->config
     # appkit_shared_module        => 'ExtensionA',
 );
 
+sub auto
+    : Action
+{
+    my ($self, $c) = @_;
+    my $list_url = $c->uri_for($self->action_for('index'));
+    $c->stash->{list_url} = $list_url;
+    $self->add_breadcrumb($c, { name => 'Items', url => $list_url });
+}
+
 sub index
     :Path
     :Args(0)
@@ -38,6 +47,8 @@ sub add
         $c->model('Preferences::TestOwner')->create({
             name => $form->param_value('name'),
         });
+        $c->flash->{status_msg} = 'Saved';
+        $c->res->redirect($c->stash->{list_url});
     }
 }
 
@@ -59,6 +70,23 @@ sub edit
     : PathPart('edit')
     : FormConfig
 {
+    my ($self, $c) = @_;
+    my $item = $c->stash->{item};
+    my $form = $c->stash->{form};
+    if($form->submitted_and_valid)
+    {
+        $item->update({
+            name => $form->param_value('name'),
+        });
+        $c->flash->{status_msg} = 'Updated';
+        $c->res->redirect($c->stash->{list_url});
+    }
+    else
+    {
+        $form->default_values({
+            name => $item->name,
+        });
+    }
 }
 
 sub view

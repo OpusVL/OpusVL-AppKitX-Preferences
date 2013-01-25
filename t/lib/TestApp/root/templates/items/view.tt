@@ -1,0 +1,9 @@
+<h1>Item</h1>
+<div class="content_block">
+    <table class="vertical_list">
+        <tr>
+            <th>Name</th>
+            <td>[% item.name %]</td>
+        </tr>
+    </table>
+</div>
