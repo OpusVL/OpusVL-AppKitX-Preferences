@@ -32,6 +32,12 @@ sub index
 {
     my ($self, $c) = @_;
     $c->stash->{items} = [$c->model('Preferences::TestOwner')->all];
+    $c->stash->{item_url} = sub {
+        my $action_name = shift;
+        my $item = shift;
+        my $action = $self->action_for($action_name);
+        return $c->uri_for($action, [ $item->id ]);
+    };
 }
 
 sub add
@@ -68,7 +74,7 @@ sub item_chain
 sub edit
     : Chained('item_chain')
     : PathPart('edit')
-    : FormConfig
+    : FormConfig('items/add.yml')
 {
     my ($self, $c) = @_;
     my $item = $c->stash->{item};

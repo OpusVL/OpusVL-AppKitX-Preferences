@@ -5,12 +5,27 @@
         <thead>
             <tr>
                 <th>Name</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             [% FOR i IN items %]
                 <tr>
                     <td>[% i.name %]</td>
+                    <td>
+                        <ul class="control-container">
+                            <li class="control-edit-small">
+                                <ul class="dropdown">
+                                <li>
+                                    <a href="[% item_url('view', i) %]">View</a>
+                                </li>
+                                <li>
+                                    <a href="[% item_url('edit', i) %]">Edit</a>
+                                </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
                 </tr>
             [% END %]
         </tbody>
