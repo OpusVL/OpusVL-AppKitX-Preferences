@@ -256,7 +256,7 @@ page for your DBIC result that is hooked up to the OpusVL::Preferences.
     use namespace::autoclean;
     BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
     with 'OpusVL::AppKit::RolesFor::Controller::GUI';
-    with 'OpusVL::AppKitX::TokenProcessor::Admin::Role::PreferencesController';
+    with 'OpusVL::AppKitX::Preferences::Roles::PreferencesController';
 
     has resultset => (is => 'ro', isa => 'Str', default => 'Currency');
 

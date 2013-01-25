@@ -1,4 +1,4 @@
-package TestApp::Controller::Preferences;
+package TestApp::Controller::Items;
 
 use Moose;
 use namespace::autoclean;
@@ -7,7 +7,7 @@ with 'OpusVL::AppKit::RolesFor::Controller::GUI';
 
 __PACKAGE__->config
 (
-    appkit_name                 => 'Preferences',
+    appkit_name                 => 'Items',
     # appkit_icon                 => 'static/images/flagA.jpg',
     appkit_myclass              => 'TestApp',
     # appkit_method_group         => 'Extension A',
@@ -41,9 +41,35 @@ sub add
     }
 }
 
+sub item_chain
+    : Chained('/')
+    : PathPart('preferences')
+    : CaptureArgs(1)
+{
+    my ($self, $c, $id) = @_;
+
+    $c->detach('/not_found') unless $id;
+    my $item = $c->model('Preferences::TestOwner')->find({ id => $id });
+    $c->detach('/not_found') unless $item;
+    $c->stash->{item} = $item;
+}
+
+sub edit
+    : Chained('item_chain')
+    : PathPart('edit')
+    : FormConfig
+{
+}
+
+sub view
+    : Chained('item_chain')
+    : PathPart('view')
+{
+}
+
 =head1 NAME
 
-TestApp::Controller::Preferences - Demo preferences controller.
+TestApp::Controller::Items - Demo preferences controller.
 
 =head1 DESCRIPTION
 

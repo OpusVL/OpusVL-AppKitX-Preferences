@@ -1,0 +1,3 @@
+[% META appkitfeature_tablesorter = 1 %]
+<h1>Item Parameters</h1>
+[% PROCESS modules/preferences/index.tt %]
