@@ -38,18 +38,14 @@ override _build_config => sub {
     };
 
     # .. add static dir into the config for Static::Simple..
-    my $static_dirs = $config->{static}->{include_path};
-    unshift(@$static_dirs, TestApp->path_to('root'));
-    $config->{static}->{include_path} = $static_dirs;
-    
-    # .. allow access regardless of ACL rules...
-    $config->{'appkit_can_access_actionpaths'} = ['custom/custom'];
+    $config->{default_view}     = 'AppKitTT';
+
+    $self->add_paths_specified(TestApp->path_to('root'), $config);
 
     # DEBUGIN!!!!
     $config->{'appkit_can_access_everything'} = 1;
     
     $config->{application_name} = 'AppKit TestApp';
-    $config->{default_view}     = 'AppKitTT';
     
     return $config;
 };

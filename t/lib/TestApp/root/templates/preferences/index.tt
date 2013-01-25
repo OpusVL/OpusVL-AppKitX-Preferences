@@ -1,0 +1,21 @@
+[% META appkitfeature_tablesorter = 1 %]
+<h1>Items</h1>
+<div class="content_block">
+    <table class="tablesorter">
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            [% FOR i IN items %]
+                <tr>
+                    <td>[% i.name %]</td>
+                </tr>
+            [% END %]
+        </tbody>
+    </table>
+</div>
+<div>
+    <a href="[% c.uri_for(c.controller.action_for('add')) %]" class="link_button link_button_add">Add</a>
+</div>

@@ -2,27 +2,44 @@ package TestApp::Controller::Preferences;
 
 use Moose;
 use namespace::autoclean;
-BEGIN { extends 'Catalyst::Controller'; };
+BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
 with 'OpusVL::AppKit::RolesFor::Controller::GUI';
 
 __PACKAGE__->config
 (
     appkit_name                 => 'Preferences',
     # appkit_icon                 => 'static/images/flagA.jpg',
-    appkit_myclass              => 'OpusVL::AppKitX::Preferences::Preferences',
+    appkit_myclass              => 'TestApp',
     # appkit_method_group         => 'Extension A',
     # appkit_method_group_order   => 2,
     # appkit_shared_module        => 'ExtensionA',
 );
 
-# sub home
-#     :Path
-#     :Args(0)
-#     :NavigationHome
-#     :AppKitFeature('Extension A')
-# {
-#     my ($self, $c) = @_;
-# }
+sub index
+    :Path
+    :Args(0)
+    :NavigationHome
+    :AppKitFeature('Test')
+{
+    my ($self, $c) = @_;
+    $c->stash->{items} = [$c->model('Preferences::TestOwner')->all];
+}
+
+sub add
+    : FormConfig
+    : Local
+{
+    my ($self, $c) = @_;
+
+    my $form = $c->stash->{form};
+    if($form->submitted_and_valid)
+    {
+        # FIXME: add the extra stuff
+        $c->model('Preferences::TestOwner')->create({
+            name => $form->param_value('name'),
+        });
+    }
+}
 
 =head1 NAME
 
