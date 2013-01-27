@@ -39,7 +39,7 @@ elements:
                     constraints:
                       - type: Required
                       - type: DBIC::Unique
-                        model: TokenDB
+                        model: Preferences
                         others: 
                           - name
                           - prf_owner_type_id
@@ -68,7 +68,7 @@ elements:
             label: Value *
             constraints:
               - type: DBIC::Unique
-                model: TokenDB
+                model: Preferences
                 others: 
                   - name
                   - prf_owner_type_id
