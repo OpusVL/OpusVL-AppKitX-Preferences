@@ -289,7 +289,7 @@ page for your DBIC result that is hooked up to the OpusVL::Preferences.
         : Local
         : Args(0)
         : AppKitFeature('Currency Parameters')
-        : AppKitForm('modules/preferences/add.yml')
+        : FormConfig('modules/preferences/add.yml')
     {
         my ($self, $c) = @_;
 
@@ -310,7 +310,7 @@ page for your DBIC result that is hooked up to the OpusVL::Preferences.
         : Chained('preference_chain')
         : Args(0)
         : AppKitFeature('Currency Parameters')
-        : AppKitForm('modules/preferences/add.yml')
+        : FormConfig('modules/preferences/add.yml')
         : PathPart('edit')
     {
         my ($self, $c) = @_;
@@ -321,7 +321,7 @@ page for your DBIC result that is hooked up to the OpusVL::Preferences.
         : Chained('preference_chain')
         : Args(0)
         : AppKitFeature('Currency Parameters')
-        : AppKitForm('modules/preferences/values.yml')
+        : FormConfig('modules/preferences/values.yml')
         : PathPart('values')
     {
         my ($self, $c) = @_;

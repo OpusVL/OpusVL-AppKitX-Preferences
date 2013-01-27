@@ -4,6 +4,7 @@ use Moose;
 use namespace::autoclean;
 BEGIN { extends 'Catalyst::Controller::HTML::FormFu'; };
 with 'OpusVL::AppKit::RolesFor::Controller::GUI';
+with 'OpusVL::AppKitX::Preferences::Roles::ParameterValueEditing';
 
 __PACKAGE__->config
 (
@@ -47,14 +48,29 @@ sub add
     my ($self, $c) = @_;
 
     my $form = $c->stash->{form};
+    my $rs = $c->model('Preferences::TestOwner');
+    $self->construct_global_data_form($c, {
+        resultset => $rs,
+    });
+    $form->process;
     if($form->submitted_and_valid)
     {
         # FIXME: add the extra stuff
-        $c->model('Preferences::TestOwner')->create({
+        my $item = $rs->create({
             name => $form->param_value('name'),
         });
+        $self->update_prefs_values($c, $item);
         $c->flash->{status_msg} = 'Saved';
         $c->res->redirect($c->stash->{list_url});
+    }
+    else
+    {
+        my $defaults = {};
+        $defaults = $self->add_prefs_defaults($c, { 
+            defaults => $defaults, 
+            resultset => $c->model('Preferences::TestOwner'),
+        });
+        $form->default_values($defaults);
     }
 }
 
@@ -79,19 +95,30 @@ sub edit
     my ($self, $c) = @_;
     my $item = $c->stash->{item};
     my $form = $c->stash->{form};
+
+    $self->construct_global_data_form($c, {
+        object => $item,
+    });
+    $form->process;
     if($form->submitted_and_valid)
     {
         $item->update({
             name => $form->param_value('name'),
         });
+        $self->update_prefs_values($c, $item);
         $c->flash->{status_msg} = 'Updated';
         $c->res->redirect($c->stash->{list_url});
     }
     else
     {
-        $form->default_values({
+        my $defaults = {
             name => $item->name,
+        };
+        $defaults = $self->add_prefs_defaults($c, {
+            defaults => $defaults,
+            object => $item,
         });
+        $form->default_values($defaults);
     }
 }
 

@@ -279,7 +279,26 @@ OpusVL::AppKitX::TokenProcessor::Admin::Role::ParameterValueEditing
 
 =head2 add_prefs_defaults
 
+Gets the default values for the extra parameters.  Either pass
+it a resultset or an object.
+
+    my $defaults = {};
+    $defaults = $self->add_prefs_defaults($c, { 
+        defaults => $defaults,
+        resultset => $c->model('Preferences::TestOwner'),
+    });
+    $form->default_values($defaults);
+
 =head2 update_prefs_values
+
+This method updates the object with the extra values from the form.
+
+    $item->update({
+        name => $form->param_value('name'),
+    });
+    $self->update_prefs_values($c, $item);
+    $c->flash->{status_msg} = 'Updated';
+    $c->res->redirect($c->stash->{list_url});
 
 =head2 get_prefs_values_from_form
 
@@ -290,6 +309,41 @@ OpusVL::AppKitX::TokenProcessor::Admin::Role::ParameterValueEditing
 =head2 update_prefs_from_hash
 
 =head2 construct_global_data_form
+
+Adds the extra fields to your form.  It hooks up a fieldset named
+prf_fields with the fields.
+
+      - type: Fieldset
+        legend: Extra Options
+        name: prf_fields
+        elements:
+
+          - type: Block
+            tag: p
+            name: no_fields
+            content: No fields defined.
+
+Then in the controller call the method.
+
+    $self->construct_global_data_form($c, {
+        resultset => $rs,
+    });
+    $form->process;
+
+    # or if you are editing an object, just pass in the
+    # object and the method will figure out the associated
+    # parameters.
+    $self->construct_global_data_form($c, {
+        object => $item,
+    });
+    $form->process;
+
+    # for a search form 
+    $self->construct_global_data_form($c, {
+        resultset => $rs,
+        search_form => 1,
+    });
+    $form->process;
 
 =head2 construct_global_data_search_form
 

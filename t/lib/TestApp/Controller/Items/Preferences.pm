@@ -39,7 +39,7 @@ sub add
     : Local
     : Args(0)
     : AppKitFeature('TestOwner Parameters')
-    : AppKitForm('modules/preferences/add.yml')
+    : FormConfig('modules/preferences/add.yml')
 {
     my ($self, $c) = @_;
 
@@ -60,7 +60,7 @@ sub edit
     : Chained('preference_chain')
     : Args(0)
     : AppKitFeature('TestOwner Parameters')
-    : AppKitForm('modules/preferences/add.yml')
+    : FormConfig('modules/preferences/add.yml')
     : PathPart('edit')
 {
     my ($self, $c) = @_;
@@ -71,7 +71,7 @@ sub values
     : Chained('preference_chain')
     : Args(0)
     : AppKitFeature('TestOwner Parameters')
-    : AppKitForm('modules/preferences/values.yml')
+    : FormConfig('modules/preferences/values.yml')
     : PathPart('values')
 {
     my ($self, $c) = @_;
