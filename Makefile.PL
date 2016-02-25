@@ -6,6 +6,7 @@ use Module::Install::AuthorTests;
 
 name 'OpusVL-AppKitX-Preferences';
 all_from 'lib/OpusVL/AppKitX/Preferences.pm';
+license  'perl';
 
 requires 'OpusVL::AppKit';
 requires 'OpusVL::Preferences';

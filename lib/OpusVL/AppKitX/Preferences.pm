@@ -37,9 +37,27 @@ OpusVL::AppKitX::Preferences - Custom preferences UI
 
 =head1 COPYRIGHT and LICENSE
 
-Copyright (C) 2013 OpusVL
+Copyright 2013 Opus Vision Limited.
 
-This software is licensed according to the "IP Assignment Schedule" provided with the development project.
+This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+If you require assistance, support, or further development of this software, please contact OpusVL using the details below:
+
+=over 4
+
+=item *
+
+Telephone: +44 (0)1788 298 410
+
+=item *
+
+Email: community@opusvl.com
+
+=item *
+
+Web: L<http://opusvl.com>
+
+=back
 
 =cut
 
